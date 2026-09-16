@@ -402,4 +402,123 @@ $('copyAllInvalid').addEventListener('click', () => {
 });
 
 // -------- CSV export --------
-$('downloadCsv').addEventListener('clic
+$('downloadCsv').addEventListener('click', async () => {
+  const rows = [
+    ...liveData.map(x => ({ ...x, status: 'live' })),
+    ...invalidData.map(x => ({ ...x, status: 'invalid' })),
+  ];
+  if (!rows.length) return toast('No data to export', 'red');
+  const res = await fetch('/export-csv', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rows }),
+  });
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `telegram_check_${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('📄 CSV downloaded', 'sky');
+});
+
+// -------- Progress bar (simulated) --------
+function startProgress(total) {
+  progressWrap.classList.remove('hidden');
+  let p = 0;
+  progressBar.style.width = '0%';
+  progressPct.textContent = '0%';
+  progressLabel.textContent = `Checking 0 / ${total}...`;
+  const step = Math.max(1, Math.floor(total / 25));
+  clearInterval(progressTimer);
+  progressTimer = setInterval(() => {
+    p = Math.min(p + step, total - 1);
+    const pct = Math.round((p / total) * 100);
+    progressBar.style.width = pct + '%';
+    progressPct.textContent = pct + '%';
+    progressLabel.textContent = `Checking ${p} / ${total}...`;
+  }, 400);
+}
+function finishProgress(total) {
+  clearInterval(progressTimer);
+  progressBar.style.width = '100%';
+  progressPct.textContent = '100%';
+  progressLabel.textContent = `✅ Done — ${total} / ${total}`;
+}
+
+// -------- Main check --------
+checkBtn.addEventListener('click', async () => {
+  const raw = input.value.trim();
+  errorBox.classList.add('hidden');
+
+  if (!raw) {
+    errorText.textContent = 'Please paste at least one phone number.';
+    errorBox.classList.remove('hidden');
+    return;
+  }
+
+  const totalGuess = parseCount(raw);
+
+  // Loading UI
+  checkBtn.disabled = true;
+  btnSpinner.classList.remove('hidden');
+  btnIcon.classList.add('hidden');
+  btnText.textContent = 'Checking...';
+
+  liveList.innerHTML    = '<div class="p-8 text-center text-gray-500 text-sm">⏳ Processing...</div>';
+  invalidList.innerHTML = '<div class="p-8 text-center text-gray-500 text-sm">⏳ Processing...</div>';
+  summary.classList.add('hidden');
+  exportBar.classList.add('hidden');
+  startProgress(totalGuess);
+
+  try {
+    const res = await fetch('/check-numbers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ numbers: raw }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) throw new Error(data.error || 'Server error');
+
+    liveData    = data.live_numbers    || [];
+    invalidData = data.invalid_numbers || [];
+
+    finishProgress(data.total_checked);
+
+    // Stats
+    const total = data.total_checked || 0;
+    const rate  = total ? Math.round((liveData.length / total) * 100) : 0;
+    totalCount.textContent   = total;
+    liveCount.textContent    = liveData.length;
+    invalidCount.textContent = invalidData.length;
+    successRate.textContent  = rate + '%';
+    liveBadge.textContent    = liveData.length;
+    invalidBadge.textContent = invalidData.length;
+    summary.classList.remove('hidden');
+    exportBar.classList.remove('hidden');
+
+    renderLive(liveData);
+    renderInvalid(invalidData);
+
+    toast(`✅ Checked ${total} numbers`, 'sky');
+  } catch (err) {
+    clearInterval(progressTimer);
+    progressWrap.classList.add('hidden');
+    errorText.textContent = err.message;
+    errorBox.classList.remove('hidden');
+    liveList.innerHTML    = '<div class="p-8 text-center text-gray-500 text-sm">No results.</div>';
+    invalidList.innerHTML = '<div class="p-8 text-center text-gray-500 text-sm">No results.</div>';
+  } finally {
+    checkBtn.disabled = false;
+    btnSpinner.classList.add('hidden');
+    btnIcon.classList.remove('hidden');
+    btnText.textContent = 'Start Checking';
+  }
+});
+
+updateCount();
+</script>
+</body>
+</html>
