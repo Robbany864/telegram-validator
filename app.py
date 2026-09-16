@@ -1,6 +1,6 @@
 """
 ============================================================
-  Telegram Number Validator — Backend
+  Telegram Number Validator — Complete Backend
   Flask + Telethon (MTProto User API)
 ============================================================
 """
@@ -26,16 +26,15 @@ from dotenv import load_dotenv
 # ================= CONFIG =================
 load_dotenv()
 
-API_ID        = int(os.getenv("API_ID", "0"))
-API_HASH      = os.getenv("API_HASH", "").strip()
-SESSION_NAME  = os.getenv("SESSION_NAME", "validator_session")
-SECRET_KEY    = os.getenv("SECRET_KEY", "dev-key-change-me")
+API_ID       = int(os.getenv("API_ID", "0"))
+API_HASH     = os.getenv("API_HASH", "").strip()
+SESSION_NAME = os.getenv("SESSION_NAME", "validator_session")
+SECRET_KEY   = os.getenv("SECRET_KEY", "dev-key-change-me")
 
-BATCH_SIZE    = int(os.getenv("BATCH_SIZE", "5"))
-BATCH_DELAY   = float(os.getenv("BATCH_DELAY", "1.5"))
-MAX_NUMBERS   = int(os.getenv("MAX_NUMBERS", "500"))
+BATCH_SIZE   = int(os.getenv("BATCH_SIZE", "5"))
+BATCH_DELAY  = float(os.getenv("BATCH_DELAY", "1.5"))
+MAX_NUMBERS  = int(os.getenv("MAX_NUMBERS", "500"))
 
-# ---------- Startup validation ----------
 if not API_ID or API_ID == 0:
     raise SystemExit(
         "\n❌ ERROR: API_ID is missing in .env file.\n"
@@ -58,14 +57,13 @@ log = logging.getLogger("validator")
 # ================= FLASK APP =================
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
-app.config["JSON_SORT_KEYS"] = False
 
 # ================= TELEGRAM CLIENT =================
-_client: TelegramClient | None = None
+_client = None
 
 
-async def get_client() -> TelegramClient:
-    """Return a single shared Telethon client (lazy init)."""
+async def get_client():
+    """Return a shared Telethon client (lazy init)."""
     global _client
     if _client is None or not _client.is_connected():
         log.info("🔌 Connecting to Telegram...")
@@ -80,16 +78,12 @@ async def get_client() -> TelegramClient:
 PHONE_RE = re.compile(r"^\+?\d{7,15}$")
 
 
-def clean_numbers(raw_list: list[str]) -> tuple[list[str], list[str]]:
-    """
-    Split, trim, dedupe, and validate phone numbers.
-    Returns (valid_list, invalid_list) — both de-duplicated.
-    """
+def clean_numbers(raw_list):
+    """Split, trim, dedupe and validate phone numbers."""
     seen = set()
     valid, invalid = [], []
 
     for raw in raw_list:
-        # allow comma, newline, semicolon, tab or space as separators
         for p in re.split(r"[,\n;\t ]+", raw):
             p = p.strip()
             if not p:
@@ -111,11 +105,15 @@ def clean_numbers(raw_list: list[str]) -> tuple[list[str], list[str]]:
     return valid, invalid
 
 
-async def verify_batch(client: TelegramClient, batch: list[str]) -> tuple[list, list]:
+async def verify_batch(client, batch):
     """
-    Verify one batch of phone numbers via ImportContactsRequest.
-    Returns (live_list, invalid_list).
-    Handles FloodWaitError by sleeping and retrying.
+    Verify a batch of phone numbers.
+
+    IMPORTANT NOTE ON TELEGRAM PRIVACY:
+    Telegram hides real accounts when the user's privacy setting
+    "Who can find me by my number?" is set to "Nobody" or "My Contacts".
+    In that case Telegram returns them as NOT found — this is a Telegram
+    server-side rule and no tool can bypass it.
     """
     contacts = [
         InputPhoneContact(client_id=i, phone=num, first_name="Val", last_name=".")
@@ -128,21 +126,22 @@ async def verify_batch(client: TelegramClient, batch: list[str]) -> tuple[list, 
         log.warning("⏳ FloodWait %ds — sleeping...", fw.seconds)
         await asyncio.sleep(fw.seconds + 2)
         return await verify_batch(client, batch)
-    except PhoneNumberInvalidError as e:
-        log.error("Invalid phone in batch: %s", e)
-        return [], [{"phone": n, "reason": "invalid_phone"} for n in batch]
+    except PhoneNumberInvalidError:
+        return [], [{"phone": n, "reason": "invalid_phone_format"} for n in batch]
     except Exception as e:
         log.error("Batch failed: %s", e)
-        return [], [{"phone": n, "reason": "error"} for n in batch]
+        return [], [{"phone": n, "reason": "api_error"} for n in batch]
 
-    # Map imported client_id -> user_id
     imported_map = {imp.client_id: imp.user_id for imp in res.imported}
     users_by_id  = {u.id: u for u in res.users}
+    retry_contacts = getattr(res, "retry_contacts", []) or []
 
     live, invalid = [], []
+
     for i, num in enumerate(batch):
         uid  = imported_map.get(i)
         user = users_by_id.get(uid) if uid else None
+
         if user:
             live.append({
                 "phone":    num,
@@ -150,10 +149,18 @@ async def verify_batch(client: TelegramClient, batch: list[str]) -> tuple[list, 
                 "username": f"@{user.username}" if user.username else None,
                 "name":     " ".join(filter(None, [user.first_name, user.last_name])) or None,
             })
+        elif i in retry_contacts:
+            invalid.append({
+                "phone": num,
+                "reason": "retry_later",
+            })
         else:
-            invalid.append({"phone": num, "reason": "not_registered"})
+            invalid.append({
+                "phone": num,
+                "reason": "not_found_or_private",
+            })
 
-    # Cleanup — delete imported contacts so contact list stays clean
+    # Cleanup contacts
     if users_by_id:
         try:
             await client(DeleteContactsRequest(id=list(users_by_id.values())))
@@ -163,8 +170,7 @@ async def verify_batch(client: TelegramClient, batch: list[str]) -> tuple[list, 
     return live, invalid
 
 
-async def check_all(numbers: list[str]) -> dict:
-    """Run all batches and return {'live': [...], 'invalid': [...]}."""
+async def check_all(numbers):
     client = await get_client()
     live, invalid = [], []
     total_batches = (len(numbers) + BATCH_SIZE - 1) // BATCH_SIZE
@@ -185,7 +191,6 @@ async def check_all(numbers: list[str]) -> dict:
 
 
 def run_async(coro):
-    """Run a coroutine from a Flask (sync) route."""
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     try:
@@ -209,13 +214,11 @@ def check_numbers():
     valid, invalid_fmt = clean_numbers(raw_list)
 
     if not valid and not invalid_fmt:
-        return jsonify({"error": "No phone numbers were provided."}), 400
+        return jsonify({"error": "No phone numbers provided."}), 400
     if len(valid) > MAX_NUMBERS:
-        return jsonify({
-            "error": f"Too many numbers. Maximum is {MAX_NUMBERS} per request."
-        }), 400
+        return jsonify({"error": f"Too many numbers (max {MAX_NUMBERS})."}), 400
 
-    log.info("📥 Received %d valid numbers (max %d)", len(valid), MAX_NUMBERS)
+    log.info("📥 Received %d valid numbers", len(valid))
 
     try:
         result = run_async(check_all(valid))
@@ -242,7 +245,6 @@ def check_numbers():
 
 @app.route("/export-csv", methods=["POST"])
 def export_csv():
-    """Export the current results as a CSV file."""
     data = request.get_json(silent=True) or {}
     rows = data.get("rows", [])
     buf = io.StringIO()
@@ -275,7 +277,7 @@ if __name__ == "__main__":
     print("=" * 58)
     print(f"   API_ID      : {API_ID}")
     print(f"   Session     : {SESSION_NAME}.session")
-    print(f"   Batch size  : {BATCH_SIZE} numbers / request")
+    print(f"   Batch size  : {BATCH_SIZE}")
     print(f"   Max numbers : {MAX_NUMBERS}")
     print(f"   URL         : http://127.0.0.1:5000")
     print("=" * 58)
