@@ -5,46 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Telegram Number Validator</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        animation: {
-          'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        }
-      }
-    }
-  }
-</script>
+<script>tailwind.config = { darkMode: 'class' };</script>
 <style>
-  .spinner {
-    border: 3px solid rgba(255,255,255,.2);
-    border-top-color: #fff;
-    border-radius: 50%;
-    width: 18px; height: 18px;
-    animation: spin .8s linear infinite;
-    display: inline-block;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: #111827; }
-  ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
-  .fade-in { animation: fadeIn .4s ease-in-out; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .spinner{border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;width:18px;height:18px;animation:spin .8s linear infinite;display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#374151;border-radius:4px}
+  .fade-in{animation:fadeIn .4s ease-in-out}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
 
-<!-- ======================= HEADER ======================= -->
+<!-- HEADER -->
 <header class="border-b border-gray-800 bg-gray-900/70 backdrop-blur-lg sticky top-0 z-20">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
       </div>
       <div>
         <h1 class="text-lg font-bold leading-tight">Telegram Number Validator</h1>
@@ -60,13 +37,11 @@
 
 <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
 
-  <!-- ======================= HERO / INFO BANNER ======================= -->
+  <!-- HOW IT WORKS -->
   <section class="fade-in bg-gradient-to-br from-blue-950/40 to-sky-900/20 border border-blue-900/40 rounded-2xl p-5">
     <div class="flex items-start gap-3">
       <div class="shrink-0 w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/></svg>
       </div>
       <div class="text-sm">
         <h2 class="font-semibold text-blue-200 mb-1">How it works</h2>
@@ -79,13 +54,29 @@
     </div>
   </section>
 
-  <!-- ======================= INPUT CARD ======================= -->
+  <!-- PRIVACY NOTICE -->
+  <section class="fade-in bg-amber-950/30 border border-amber-900/50 rounded-2xl p-4">
+    <div class="flex items-start gap-3">
+      <div class="shrink-0 w-9 h-9 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <div class="text-sm">
+        <h2 class="font-semibold text-amber-200 mb-1">Why some numbers show "No Telegram" even if they have an account</h2>
+        <p class="text-gray-300 leading-relaxed">
+          Telegram hides accounts whose privacy setting <span class="font-mono text-amber-300">"Who can find me by my number?"</span>
+          is set to <span class="text-amber-300">Nobody</span> or <span class="text-amber-300">My Contacts</span>.
+          This is a Telegram privacy rule — no tool can bypass it.
+          If a number is really on Telegram, ask the owner to set it to <span class="text-amber-300">Everybody</span>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INPUT -->
   <section class="fade-in bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-xl">
     <div class="flex items-center justify-between mb-3">
       <label class="text-sm font-medium text-gray-200 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         Paste Phone Numbers
       </label>
       <span class="text-xs text-gray-500">One per line • or comma-separated</span>
@@ -93,14 +84,11 @@
 
     <textarea id="numbersInput" rows="8"
       class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 font-mono text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-y transition placeholder-gray-600"
-      placeholder="+8801700000000&#10;+919999999999&#10;+14155552671, +442071838750&#10;+4915112345678"></textarea>
+      placeholder="+8801700000000&#10;+919999999999&#10;+14155552671, +442071838750"></textarea>
 
     <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
       <div class="flex items-center gap-3 text-xs text-gray-400">
         <span class="inline-flex items-center gap-1.5 bg-gray-800/70 px-2.5 py-1 rounded-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
-          </svg>
           <span id="countLabel">0</span>
         </span>
         <span class="text-gray-600">•</span>
@@ -108,47 +96,31 @@
       </div>
 
       <div class="flex gap-2">
-        <button id="clearBtn"
-          class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-medium transition active:scale-95">
-          Clear
-        </button>
+        <button id="clearBtn" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-medium transition active:scale-95">Clear</button>
         <button id="checkBtn"
-          class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 transition active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-2">
-          <svg id="btnIcon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
+          class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 transition active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2">
           <span id="btnText">Start Checking</span>
           <span id="btnSpinner" class="spinner hidden"></span>
         </button>
       </div>
     </div>
 
-    <!-- Progress Bar -->
     <div id="progressWrap" class="hidden mt-5">
       <div class="flex justify-between text-xs text-gray-400 mb-2">
-        <span id="progressLabel" class="flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-          Checking...
-        </span>
+        <span id="progressLabel">Checking...</span>
         <span id="progressPct" class="font-mono">0%</span>
       </div>
       <div class="w-full h-2.5 bg-gray-800 rounded-full overflow-hidden">
-        <div id="progressBar"
-          class="h-full bg-gradient-to-r from-sky-500 to-blue-500 transition-all duration-300 rounded-full"
-          style="width:0%"></div>
+        <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-blue-500 transition-all duration-300 rounded-full" style="width:0%"></div>
       </div>
     </div>
 
-    <!-- Error -->
-    <div id="errorBox" class="hidden mt-4 text-sm text-red-300 bg-red-950/40 border border-red-900 rounded-xl p-3.5 flex items-start gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-      </svg>
+    <div id="errorBox" class="hidden mt-4 text-sm text-red-300 bg-red-950/40 border border-red-900 rounded-xl p-3.5">
       <span id="errorText"></span>
     </div>
   </section>
 
-  <!-- ======================= SUMMARY STATS ======================= -->
+  <!-- SUMMARY -->
   <section id="summary" class="hidden grid grid-cols-2 lg:grid-cols-4 gap-4 fade-in">
     <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
       <div class="text-xs text-gray-500 uppercase tracking-wider">Total Checked</div>
@@ -168,21 +140,17 @@
     </div>
   </section>
 
-  <!-- ======================= EXPORT BUTTONS ======================= -->
+  <!-- EXPORT -->
   <div id="exportBar" class="hidden flex flex-wrap gap-2 fade-in">
-    <button id="downloadCsv"
-      class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-sm font-medium transition flex items-center gap-2 active:scale-95">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-      </svg>
+    <button id="downloadCsv" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-sm font-medium transition flex items-center gap-2 active:scale-95">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
       Download CSV
     </button>
   </div>
 
-  <!-- ======================= RESULTS ======================= -->
+  <!-- RESULTS -->
   <section class="grid lg:grid-cols-2 gap-6">
-
-    <!-- Live Numbers -->
+    <!-- Live -->
     <div class="fade-in bg-gray-900 border border-green-900/50 rounded-2xl shadow-xl overflow-hidden">
       <div class="px-4 py-3 border-b border-green-900/50 bg-gradient-to-r from-green-950/60 to-transparent flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -190,25 +158,14 @@
           <h2 class="font-semibold text-green-300">Live Telegram Accounts</h2>
           <span id="liveBadge" class="text-xs bg-green-900/50 text-green-300 px-2 py-0.5 rounded-full font-mono">0</span>
         </div>
-        <button id="copyAllLive"
-          class="text-xs px-3 py-1.5 rounded-lg bg-green-800/50 hover:bg-green-700/70 text-green-100 font-medium transition flex items-center gap-1.5 active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3"/>
-          </svg>
-          Copy All
-        </button>
+        <button id="copyAllLive" class="text-xs px-3 py-1.5 rounded-lg bg-green-800/50 hover:bg-green-700/70 text-green-100 font-medium transition active:scale-95">Copy All</button>
       </div>
       <div id="liveList" class="max-h-[28rem] overflow-y-auto divide-y divide-gray-800/70">
-        <div class="p-8 text-center text-gray-500 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          No results yet. Start a check to see live accounts.
-        </div>
+        <div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>
       </div>
     </div>
 
-    <!-- Invalid Numbers -->
+    <!-- Invalid -->
     <div class="fade-in bg-gray-900 border border-red-900/50 rounded-2xl shadow-xl overflow-hidden">
       <div class="px-4 py-3 border-b border-red-900/50 bg-gradient-to-r from-red-950/60 to-transparent flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -216,305 +173,184 @@
           <h2 class="font-semibold text-red-300">No Telegram / Invalid</h2>
           <span id="invalidBadge" class="text-xs bg-red-900/50 text-red-300 px-2 py-0.5 rounded-full font-mono">0</span>
         </div>
-        <button id="copyAllInvalid"
-          class="text-xs px-3 py-1.5 rounded-lg bg-red-800/50 hover:bg-red-700/70 text-red-100 font-medium transition flex items-center gap-1.5 active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3"/>
-          </svg>
-          Copy All
-        </button>
+        <button id="copyAllInvalid" class="text-xs px-3 py-1.5 rounded-lg bg-red-800/50 hover:bg-red-700/70 text-red-100 font-medium transition active:scale-95">Copy All</button>
       </div>
       <div id="invalidList" class="max-h-[28rem] overflow-y-auto divide-y divide-gray-800/70">
-        <div class="p-8 text-center text-gray-500 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          No results yet.
-        </div>
+        <div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>
       </div>
     </div>
-
   </section>
 
-  <!-- ======================= FOOTER ======================= -->
   <footer class="text-center text-xs text-gray-600 py-8">
     Built with Flask + Telethon • Contacts are auto-removed after each check
   </footer>
-
 </main>
 
-<!-- Toast -->
-<div id="toast"
-  class="fixed bottom-5 right-5 px-4 py-2.5 rounded-xl bg-sky-600 text-white text-sm shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2 z-50">
-</div>
+<div id="toast" class="fixed bottom-5 right-5 px-4 py-2.5 rounded-xl bg-sky-600 text-white text-sm shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2 z-50"></div>
 
 <script>
 const $ = id => document.getElementById(id);
+const input=$('numbersInput'), checkBtn=$('checkBtn'), btnText=$('btnText'), btnSpinner=$('btnSpinner');
+const liveList=$('liveList'), invalidList=$('invalidList'), summary=$('summary');
+const liveCount=$('liveCount'), invalidCount=$('invalidCount'), totalCount=$('totalCount'), successRate=$('successRate');
+const liveBadge=$('liveBadge'), invalidBadge=$('invalidBadge');
+const exportBar=$('exportBar'), progressWrap=$('progressWrap'), progressBar=$('progressBar');
+const progressLabel=$('progressLabel'), progressPct=$('progressPct');
+const errorBox=$('errorBox'), errorText=$('errorText');
 
-// -------- DOM refs --------
-const input        = $('numbersInput');
-const checkBtn     = $('checkBtn');
-const btnText      = $('btnText');
-const btnSpinner   = $('btnSpinner');
-const btnIcon      = $('btnIcon');
-const clearBtn     = $('clearBtn');
-const liveList     = $('liveList');
-const invalidList  = $('invalidList');
-const summary      = $('summary');
-const liveCount    = $('liveCount');
-const invalidCount = $('invalidCount');
-const totalCount   = $('totalCount');
-const successRate  = $('successRate');
-const liveBadge    = $('liveBadge');
-const invalidBadge = $('invalidBadge');
-const exportBar    = $('exportBar');
-const progressWrap = $('progressWrap');
-const progressBar  = $('progressBar');
-const progressLabel= $('progressLabel');
-const progressPct  = $('progressPct');
-const errorBox     = $('errorBox');
-const errorText    = $('errorText');
+let liveData=[], invalidData=[], progressTimer=null;
 
-let liveData = [];
-let invalidData = [];
-let progressTimer = null;
+function parseCount(str){return str.split(/[,\n;\t ]+/).map(s=>s.trim()).filter(Boolean).length}
+function updateCount(){$('countLabel').textContent=parseCount(input.value)}
+input.addEventListener('input',updateCount);
 
-// -------- Input counter --------
-function parseCount(str) {
-  return str.split(/[,\n;\t ]+/).map(s => s.trim()).filter(Boolean).length;
+function toast(msg,color='sky'){
+  const t=$('toast'); t.textContent=msg;
+  t.className=`fixed bottom-5 right-5 px-4 py-2.5 rounded-xl bg-${color}-600 text-white text-sm shadow-2xl transition-all duration-300 transform z-50`;
+  t.style.opacity='1'; t.style.transform='translateY(0)';
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)'},1900);
 }
-function updateCount() {
-  const n = parseCount(input.value);
-  $('countLabel').textContent = n;
-}
-input.addEventListener('input', updateCount);
+function copyText(txt){navigator.clipboard.writeText(txt).then(()=>toast('✅ Copied','green'),()=>toast('❌ Failed','red'))}
 
-// -------- Toast --------
-function toast(msg, color = 'sky') {
-  const t = $('toast');
-  t.textContent = msg;
-  t.className = `fixed bottom-5 right-5 px-4 py-2.5 rounded-xl bg-${color}-600 text-white text-sm shadow-2xl transition-all duration-300 transform z-50`;
-  t.style.opacity = '1';
-  t.style.transform = 'translateY(0)';
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transform = 'translateY(8px)';
-  }, 1900);
-}
-
-// -------- Copy helpers --------
-function copyText(txt) {
-  navigator.clipboard.writeText(txt)
-    .then(() => toast('✅ Copied to clipboard', 'green'))
-    .catch(() => toast('❌ Copy failed', 'red'));
-}
-
-// -------- Clear --------
-clearBtn.addEventListener('click', () => {
-  input.value = '';
-  updateCount();
-  liveList.innerHTML  = '<div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>';
-  invalidList.innerHTML = '<div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>';
-  summary.classList.add('hidden');
-  exportBar.classList.add('hidden');
-  progressWrap.classList.add('hidden');
-  errorBox.classList.add('hidden');
-  liveData = []; invalidData = [];
+$('clearBtn').addEventListener('click',()=>{
+  input.value=''; updateCount();
+  liveList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>';
+  invalidList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>';
+  summary.classList.add('hidden'); exportBar.classList.add('hidden');
+  progressWrap.classList.add('hidden'); errorBox.classList.add('hidden');
+  liveData=[]; invalidData=[];
 });
 
-// -------- Render --------
-function escapeHtml(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-function renderLive(items) {
-  if (!items.length) {
-    liveList.innerHTML = `<div class="p-8 text-center text-gray-500 text-sm">No live accounts found.</div>`;
-    return;
-  }
-  liveList.innerHTML = items.map(it => `
+function renderLive(items){
+  if(!items.length){liveList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">No live accounts found.</div>';return}
+  liveList.innerHTML=items.map(it=>`
     <div class="p-3.5 flex items-center justify-between gap-3 hover:bg-gray-800/40 transition group">
       <div class="min-w-0 flex items-center gap-3">
         <div class="w-9 h-9 rounded-full bg-green-900/40 border border-green-800/60 flex items-center justify-center shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </div>
         <div class="min-w-0">
-          <div class="font-mono text-sm text-green-300 truncate">${escapeHtml(it.phone)}</div>
+          <div class="font-mono text-sm text-green-300 truncate">${esc(it.phone)}</div>
           <div class="text-xs text-gray-400 truncate">
-            ${it.name ? '👤 ' + escapeHtml(it.name) : ''}
-            ${it.username ? '<span class="text-sky-400"> • ' + escapeHtml(it.username) + '</span>' : ''}
-            ${!it.name && !it.username ? '<span class="text-gray-500">Hidden profile</span>' : ''}
+            ${it.name?'👤 '+esc(it.name):''}${it.username?'<span class="text-sky-400"> • '+esc(it.username)+'</span>':''}
+            ${!it.name&&!it.username?'<span class="text-gray-500">Hidden profile</span>':''}
           </div>
         </div>
       </div>
-      <button data-copy="${escapeHtml(it.phone)}"
-        class="copy-item text-xs px-2.5 py-1.5 rounded-lg bg-green-800/40 hover:bg-green-700 text-green-100 shrink-0 transition opacity-0 group-hover:opacity-100 active:scale-95">
-        Copy
-      </button>
-    </div>
-  `).join('');
+      <button data-copy="${esc(it.phone)}" class="copy-item text-xs px-2.5 py-1.5 rounded-lg bg-green-800/40 hover:bg-green-700 text-green-100 shrink-0 transition opacity-0 group-hover:opacity-100 active:scale-95">Copy</button>
+    </div>`).join('');
 }
 
-function renderInvalid(items) {
-  if (!items.length) {
-    invalidList.innerHTML = `<div class="p-8 text-center text-gray-500 text-sm">No invalid numbers 🎉</div>`;
-    return;
-  }
-  invalidList.innerHTML = items.map(it => `
+function reasonLabel(r){
+  if(r==='not_found_or_private') return '❓ Not found (may exist but hidden by privacy)';
+  if(r==='retry_later') return '⏳ Retry later (Telegram busy)';
+  if(r==='invalid_phone_format') return '⚠️ Invalid phone format';
+  if(r==='invalid_format') return '⚠️ Invalid format';
+  return r||'not_registered';
+}
+
+function renderInvalid(items){
+  if(!items.length){invalidList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">No invalid numbers 🎉</div>';return}
+  invalidList.innerHTML=items.map(it=>`
     <div class="p-3.5 flex items-center justify-between gap-3 hover:bg-gray-800/40 transition group">
       <div class="min-w-0 flex items-center gap-3">
         <div class="w-9 h-9 rounded-full bg-red-900/30 border border-red-800/60 flex items-center justify-center shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
         </div>
         <div class="min-w-0">
-          <div class="font-mono text-sm text-red-300 truncate">${escapeHtml(it.phone)}</div>
-          <div class="text-xs text-gray-500 truncate">${escapeHtml(it.reason || 'not_registered')}</div>
+          <div class="font-mono text-sm text-red-300 truncate">${esc(it.phone)}</div>
+          <div class="text-xs text-gray-500 truncate">${reasonLabel(it.reason)}</div>
         </div>
       </div>
-      <button data-copy="${escapeHtml(it.phone)}"
-        class="copy-item text-xs px-2.5 py-1.5 rounded-lg bg-red-800/40 hover:bg-red-700 text-red-100 shrink-0 transition opacity-0 group-hover:opacity-100 active:scale-95">
-        Copy
-      </button>
-    </div>
-  `).join('');
+      <button data-copy="${esc(it.phone)}" class="copy-item text-xs px-2.5 py-1.5 rounded-lg bg-red-800/40 hover:bg-red-700 text-red-100 shrink-0 transition opacity-0 group-hover:opacity-100 active:scale-95">Copy</button>
+    </div>`).join('');
 }
 
-// Delegate copy buttons
-document.addEventListener('click', e => {
-  const b = e.target.closest('.copy-item');
-  if (b) copyText(b.dataset.copy);
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.copy-item');
+  if(b) copyText(b.dataset.copy);
 });
 
-// -------- Copy all --------
-$('copyAllLive').addEventListener('click', () => {
-  if (!liveData.length) return toast('Nothing to copy', 'red');
-  copyText(liveData.map(x => x.phone).join('\n'));
+$('copyAllLive').addEventListener('click',()=>{
+  if(!liveData.length) return toast('Nothing to copy','red');
+  copyText(liveData.map(x=>x.phone).join('\n'));
 });
-$('copyAllInvalid').addEventListener('click', () => {
-  if (!invalidData.length) return toast('Nothing to copy', 'red');
-  copyText(invalidData.map(x => x.phone).join('\n'));
-});
-
-// -------- CSV export --------
-$('downloadCsv').addEventListener('click', async () => {
-  const rows = [
-    ...liveData.map(x => ({ ...x, status: 'live' })),
-    ...invalidData.map(x => ({ ...x, status: 'invalid' })),
-  ];
-  if (!rows.length) return toast('No data to export', 'red');
-  const res = await fetch('/export-csv', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ rows }),
-  });
-  const blob = await res.blob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `telegram_check_${Date.now()}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('📄 CSV downloaded', 'sky');
+$('copyAllInvalid').addEventListener('click',()=>{
+  if(!invalidData.length) return toast('Nothing to copy','red');
+  copyText(invalidData.map(x=>x.phone).join('\n'));
 });
 
-// -------- Progress bar (simulated) --------
-function startProgress(total) {
+$('downloadCsv').addEventListener('click',async()=>{
+  const rows=[...liveData.map(x=>({...x,status:'live'})),...invalidData.map(x=>({...x,status:'invalid'}))];
+  if(!rows.length) return toast('No data','red');
+  const res=await fetch('/export-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({rows})});
+  const blob=await res.blob(); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=`telegram_check_${Date.now()}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('📄 CSV downloaded','sky');
+});
+
+function startProgress(total){
   progressWrap.classList.remove('hidden');
-  let p = 0;
-  progressBar.style.width = '0%';
-  progressPct.textContent = '0%';
-  progressLabel.textContent = `Checking 0 / ${total}...`;
-  const step = Math.max(1, Math.floor(total / 25));
+  let p=0; progressBar.style.width='0%'; progressPct.textContent='0%';
+  progressLabel.textContent=`Checking 0 / ${total}...`;
+  const step=Math.max(1,Math.floor(total/25));
   clearInterval(progressTimer);
-  progressTimer = setInterval(() => {
-    p = Math.min(p + step, total - 1);
-    const pct = Math.round((p / total) * 100);
-    progressBar.style.width = pct + '%';
-    progressPct.textContent = pct + '%';
-    progressLabel.textContent = `Checking ${p} / ${total}...`;
-  }, 400);
+  progressTimer=setInterval(()=>{
+    p=Math.min(p+step,total-1);
+    const pct=Math.round((p/total)*100);
+    progressBar.style.width=pct+'%'; progressPct.textContent=pct+'%';
+    progressLabel.textContent=`Checking ${p} / ${total}...`;
+  },400);
 }
-function finishProgress(total) {
+function finishProgress(total){
   clearInterval(progressTimer);
-  progressBar.style.width = '100%';
-  progressPct.textContent = '100%';
-  progressLabel.textContent = `✅ Done — ${total} / ${total}`;
+  progressBar.style.width='100%'; progressPct.textContent='100%';
+  progressLabel.textContent=`✅ Done — ${total} / ${total}`;
 }
 
-// -------- Main check --------
-checkBtn.addEventListener('click', async () => {
-  const raw = input.value.trim();
-  errorBox.classList.add('hidden');
+checkBtn.addEventListener('click',async()=>{
+  const raw=input.value.trim(); errorBox.classList.add('hidden');
+  if(!raw){errorText.textContent='Please paste at least one phone number.';errorBox.classList.remove('hidden');return}
 
-  if (!raw) {
-    errorText.textContent = 'Please paste at least one phone number.';
-    errorBox.classList.remove('hidden');
-    return;
-  }
+  const totalGuess=parseCount(raw);
 
-  const totalGuess = parseCount(raw);
-
-  // Loading UI
-  checkBtn.disabled = true;
-  btnSpinner.classList.remove('hidden');
-  btnIcon.classList.add('hidden');
-  btnText.textContent = 'Checking...';
-
-  liveList.innerHTML    = '<div class="p-8 text-center text-gray-500 text-sm">⏳ Processing...</div>';
-  invalidList.innerHTML = '<div class="p-8 text-center text-gray-500 text-sm">⏳ Processing...</div>';
-  summary.classList.add('hidden');
-  exportBar.classList.add('hidden');
+  checkBtn.disabled=true; btnSpinner.classList.remove('hidden'); btnText.textContent='Checking...';
+  liveList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">⏳ Processing...</div>';
+  invalidList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">⏳ Processing...</div>';
+  summary.classList.add('hidden'); exportBar.classList.add('hidden');
   startProgress(totalGuess);
 
-  try {
-    const res = await fetch('/check-numbers', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ numbers: raw }),
+  try{
+    const res=await fetch('/check-numbers',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({numbers:raw})
     });
-    const data = await res.json();
+    const data=await res.json();
+    if(!res.ok||!data.success) throw new Error(data.error||'Server error');
 
-    if (!res.ok || !data.success) throw new Error(data.error || 'Server error');
-
-    liveData    = data.live_numbers    || [];
-    invalidData = data.invalid_numbers || [];
-
+    liveData=data.live_numbers||[]; invalidData=data.invalid_numbers||[];
     finishProgress(data.total_checked);
 
-    // Stats
-    const total = data.total_checked || 0;
-    const rate  = total ? Math.round((liveData.length / total) * 100) : 0;
-    totalCount.textContent   = total;
-    liveCount.textContent    = liveData.length;
-    invalidCount.textContent = invalidData.length;
-    successRate.textContent  = rate + '%';
-    liveBadge.textContent    = liveData.length;
-    invalidBadge.textContent = invalidData.length;
-    summary.classList.remove('hidden');
-    exportBar.classList.remove('hidden');
+    const total=data.total_checked||0;
+    const rate=total?Math.round((liveData.length/total)*100):0;
+    totalCount.textContent=total; liveCount.textContent=liveData.length;
+    invalidCount.textContent=invalidData.length; successRate.textContent=rate+'%';
+    liveBadge.textContent=liveData.length; invalidBadge.textContent=invalidData.length;
+    summary.classList.remove('hidden'); exportBar.classList.remove('hidden');
 
-    renderLive(liveData);
-    renderInvalid(invalidData);
-
-    toast(`✅ Checked ${total} numbers`, 'sky');
-  } catch (err) {
-    clearInterval(progressTimer);
-    progressWrap.classList.add('hidden');
-    errorText.textContent = err.message;
-    errorBox.classList.remove('hidden');
-    liveList.innerHTML    = '<div class="p-8 text-center text-gray-500 text-sm">No results.</div>';
-    invalidList.innerHTML = '<div class="p-8 text-center text-gray-500 text-sm">No results.</div>';
-  } finally {
-    checkBtn.disabled = false;
-    btnSpinner.classList.add('hidden');
-    btnIcon.classList.remove('hidden');
-    btnText.textContent = 'Start Checking';
+    renderLive(liveData); renderInvalid(invalidData);
+    toast(`✅ Checked ${total} numbers`,'sky');
+  }catch(err){
+    clearInterval(progressTimer); progressWrap.classList.add('hidden');
+    errorText.textContent=err.message; errorBox.classList.remove('hidden');
+    liveList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">No results.</div>';
+    invalidList.innerHTML='<div class="p-8 text-center text-gray-500 text-sm">No results.</div>';
+  }finally{
+    checkBtn.disabled=false; btnSpinner.classList.add('hidden'); btnText.textContent='Start Checking';
   }
 });
 
