@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Telegram Number Validator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        animation: {
+          'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .spinner {
+    border: 3px solid rgba(255,255,255,.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    width: 18px; height: 18px;
+    animation: spin .8s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #111827; }
+  ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+  .fade-in { animation: fadeIn .4s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
+
+<!-- ======================= HEADER ======================= -->
+<header class="border-b border-gray-800 bg-gray-900/70 backdrop-blur-lg sticky top-0 z-20">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold leading-tight">Telegram Number Validator</h1>
+        <p class="text-xs text-gray-400">Bulk-check phone numbers for active Telegram accounts</p>
+      </div>
+    </div>
+    <div class="hidden sm:flex items-center gap-2 text-xs text-gray-500">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <span>Backend online</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- ======================= HERO / INFO BANNER ======================= -->
+  <section class="fade-in bg-gradient-to-br from-blue-950/40 to-sky-900/20 border border-blue-900/40 rounded-2xl p-5">
+    <div class="flex items-start gap-3">
+      <div class="shrink-0 w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/>
+        </svg>
+      </div>
+      <div class="text-sm">
+        <h2 class="font-semibold text-blue-200 mb-1">How it works</h2>
+        <p class="text-gray-300 leading-relaxed">
+          Paste phone numbers (with country code, e.g. <span class="font-mono text-sky-300">+8801XXXXXXXXX</span>).
+          The server checks each one against Telegram and shows you which numbers have an <span class="text-green-400">active account</span> and which don't.
+          Contacts are automatically cleaned up after checking.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= INPUT CARD ======================= -->
+  <section class="fade-in bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-xl">
+    <div class="flex items-center justify-between mb-3">
+      <label class="text-sm font-medium text-gray-200 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        Paste Phone Numbers
+      </label>
+      <span class="text-xs text-gray-500">One per line • or comma-separated</span>
+    </div>
+
+    <textarea id="numbersInput" rows="8"
+      class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 font-mono text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-y transition placeholder-gray-600"
+      placeholder="+8801700000000&#10;+919999999999&#10;+14155552671, +442071838750&#10;+4915112345678"></textarea>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
+      <div class="flex items-center gap-3 text-xs text-gray-400">
+        <span class="inline-flex items-center gap-1.5 bg-gray-800/70 px-2.5 py-1 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+          </svg>
+          <span id="countLabel">0</span>
+        </span>
+        <span class="text-gray-600">•</span>
+        <span>Max 500 per run</span>
+      </div>
+
+      <div class="flex gap-2">
+        <button id="clearBtn"
+          class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-medium transition active:scale-95">
+          Clear
+        </button>
+        <button id="checkBtn"
+          class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 transition active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-2">
+          <svg id="btnIcon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <span id="btnText">Start Checking</span>
+          <span id="btnSpinner" class="spinner hidden"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progressWrap" class="hidden mt-5">
+      <div class="flex justify-between text-xs text-gray-400 mb-2">
+        <span id="progressLabel" class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+          Checking...
+        </span>
+        <span id="progressPct" class="font-mono">0%</span>
+      </div>
+      <div class="w-full h-2.5 bg-gray-800 rounded-full overflow-hidden">
+        <div id="progressBar"
+          class="h-full bg-gradient-to-r from-sky-500 to-blue-500 transition-all duration-300 rounded-full"
+          style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div id="errorBox" class="hidden mt-4 text-sm text-red-300 bg-red-950/40 border border-red-900 rounded-xl p-3.5 flex items-start gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      <span id="errorText"></span>
+    </div>
+  </section>
+
+  <!-- ======================= SUMMARY STATS ======================= -->
+  <section id="summary" class="hidden grid grid-cols-2 lg:grid-cols-4 gap-4 fade-in">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+      <div class="text-xs text-gray-500 uppercase tracking-wider">Total Checked</div>
+      <div id="totalCount" class="text-3xl font-bold text-gray-100 mt-1">0</div>
+    </div>
+    <div class="bg-green-950/30 border border-green-900/60 rounded-2xl p-4">
+      <div class="text-xs text-green-400 uppercase tracking-wider">Live</div>
+      <div id="liveCount" class="text-3xl font-bold text-green-300 mt-1">0</div>
+    </div>
+    <div class="bg-red-950/30 border border-red-900/60 rounded-2xl p-4">
+      <div class="text-xs text-red-400 uppercase tracking-wider">No Telegram</div>
+      <div id="invalidCount" class="text-3xl font-bold text-red-300 mt-1">0</div>
+    </div>
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+      <div class="text-xs text-gray-500 uppercase tracking-wider">Success Rate</div>
+      <div id="successRate" class="text-3xl font-bold text-sky-300 mt-1">0%</div>
+    </div>
+  </section>
+
+  <!-- ======================= EXPORT BUTTONS ======================= -->
+  <div id="exportBar" class="hidden flex flex-wrap gap-2 fade-in">
+    <button id="downloadCsv"
+      class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-sm font-medium transition flex items-center gap-2 active:scale-95">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+      </svg>
+      Download CSV
+    </button>
+  </div>
+
+  <!-- ======================= RESULTS ======================= -->
+  <section class="grid lg:grid-cols-2 gap-6">
+
+    <!-- Live Numbers -->
+    <div class="fade-in bg-gray-900 border border-green-900/50 rounded-2xl shadow-xl overflow-hidden">
+      <div class="px-4 py-3 border-b border-green-900/50 bg-gradient-to-r from-green-950/60 to-transparent flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+          <h2 class="font-semibold text-green-300">Live Telegram Accounts</h2>
+          <span id="liveBadge" class="text-xs bg-green-900/50 text-green-300 px-2 py-0.5 rounded-full font-mono">0</span>
+        </div>
+        <button id="copyAllLive"
+          class="text-xs px-3 py-1.5 rounded-lg bg-green-800/50 hover:bg-green-700/70 text-green-100 font-medium transition flex items-center gap-1.5 active:scale-95">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3"/>
+          </svg>
+          Copy All
+        </button>
+      </div>
+      <div id="liveList" class="max-h-[28rem] overflow-y-auto divide-y divide-gray-800/70">
+        <div class="p-8 text-center text-gray-500 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          No results yet. Start a check to see live accounts.
+        </div>
+      </div>
+    </div>
+
+    <!-- Invalid Numbers -->
+    <div class="fade-in bg-gray-900 border border-red-900/50 rounded-2xl shadow-xl overflow-hidden">
+      <div class="px-4 py-3 border-b border-red-900/50 bg-gradient-to-r from-red-950/60 to-transparent flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+          <h2 class="font-semibold text-red-300">No Telegram / Invalid</h2>
+          <span id="invalidBadge" class="text-xs bg-red-900/50 text-red-300 px-2 py-0.5 rounded-full font-mono">0</span>
+        </div>
+        <button id="copyAllInvalid"
+          class="text-xs px-3 py-1.5 rounded-lg bg-red-800/50 hover:bg-red-700/70 text-red-100 font-medium transition flex items-center gap-1.5 active:scale-95">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3"/>
+          </svg>
+          Copy All
+        </button>
+      </div>
+      <div id="invalidList" class="max-h-[28rem] overflow-y-auto divide-y divide-gray-800/70">
+        <div class="p-8 text-center text-gray-500 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          No results yet.
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="text-center text-xs text-gray-600 py-8">
+    Built with Flask + Telethon • Contacts are auto-removed after each check
+  </footer>
+
+</main>
+
+<!-- Toast -->
+<div id="toast"
+  class="fixed bottom-5 right-5 px-4 py-2.5 rounded-xl bg-sky-600 text-white text-sm shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2 z-50">
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+// -------- DOM refs --------
+const input        = $('numbersInput');
+const checkBtn     = $('checkBtn');
+const btnText      = $('btnText');
+const btnSpinner   = $('btnSpinner');
+const btnIcon      = $('btnIcon');
+const clearBtn     = $('clearBtn');
+const liveList     = $('liveList');
+const invalidList  = $('invalidList');
+const summary      = $('summary');
+const liveCount    = $('liveCount');
+const invalidCount = $('invalidCount');
+const totalCount   = $('totalCount');
+const successRate  = $('successRate');
+const liveBadge    = $('liveBadge');
+const invalidBadge = $('invalidBadge');
+const exportBar    = $('exportBar');
+const progressWrap = $('progressWrap');
+const progressBar  = $('progressBar');
+const progressLabel= $('progressLabel');
+const progressPct  = $('progressPct');
+const errorBox     = $('errorBox');
+const errorText    = $('errorText');
+
+let liveData = [];
+let invalidData = [];
+let progressTimer = null;
+
+// -------- Input counter --------
+function parseCount(str) {
+  return str.split(/[,\n;\t ]+/).map(s => s.trim()).filter(Boolean).length;
+}
+function updateCount() {
+  const n = parseCount(input.value);
+  $('countLabel').textContent = n;
+}
+input.addEventListener('input', updateCount);
+
+// -------- Toast --------
+function toast(msg, color = 'sky') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = `fixed bottom-5 right-5 px-4 py-2.5 rounded-xl bg-${color}-600 text-white text-sm shadow-2xl transition-all duration-300 transform z-50`;
+  t.style.opacity = '1';
+  t.style.transform = 'translateY(0)';
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(8px)';
+  }, 1900);
+}
+
+// -------- Copy helpers --------
+function copyText(txt) {
+  navigator.clipboard.writeText(txt)
+    .then(() => toast('✅ Copied to clipboard', 'green'))
+    .catch(() => toast('❌ Copy failed', 'red'));
+}
+
+// -------- Clear --------
+clearBtn.addEventListener('click', () => {
+  input.value = '';
+  updateCount();
+  liveList.innerHTML  = '<div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>';
+  invalidList.innerHTML = '<div class="p-8 text-center text-gray-500 text-sm">No results yet.</div>';
+  summary.classList.add('hidden');
+  exportBar.classList.add('hidden');
+  progressWrap.classList.add('hidden');
+  errorBox.classList.add('hidden');
+  liveData = []; invalidData = [];
+});
+
+// -------- Render --------
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function renderLive(items) {
+  if (!items.length) {
+    liveList.innerHTML = `<div class="p-8 text-center text-gray-500 text-sm">No live accounts found.</div>`;
+    return;
+  }
+  liveList.innerHTML = items.map(it => `
+    <div class="p-3.5 flex items-center justify-between gap-3 hover:bg-gray-800/40 transition group">
+      <div class="min-w-0 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-green-900/40 border border-green-800/60 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="font-mono text-sm text-green-300 truncate">${escapeHtml(it.phone)}</div>
+          <div class="text-xs text-gray-400 truncate">
+            ${it.name ? '👤 ' + escapeHtml(it.name) : ''}
+            ${it.username ? '<span class="text-sky-400"> • ' + escapeHtml(it.username) + '</span>' : ''}
+            ${!it.name && !it.username ? '<span class="text-gray-500">Hidden profile</span>' : ''}
+          </div>
+        </div>
+      </div>
+      <button data-copy="${escapeHtml(it.phone)}"
+        class="copy-item text-xs px-2.5 py-1.5 rounded-lg bg-green-800/40 hover:bg-green-700 text-green-100 shrink-0 transition opacity-0 group-hover:opacity-100 active:scale-95">
+        Copy
+      </button>
+    </div>
+  `).join('');
+}
+
+function renderInvalid(items) {
+  if (!items.length) {
+    invalidList.innerHTML = `<div class="p-8 text-center text-gray-500 text-sm">No invalid numbers 🎉</div>`;
+    return;
+  }
+  invalidList.innerHTML = items.map(it => `
+    <div class="p-3.5 flex items-center justify-between gap-3 hover:bg-gray-800/40 transition group">
+      <div class="min-w-0 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-red-900/30 border border-red-800/60 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="font-mono text-sm text-red-300 truncate">${escapeHtml(it.phone)}</div>
+          <div class="text-xs text-gray-500 truncate">${escapeHtml(it.reason || 'not_registered')}</div>
+        </div>
+      </div>
+      <button data-copy="${escapeHtml(it.phone)}"
+        class="copy-item text-xs px-2.5 py-1.5 rounded-lg bg-red-800/40 hover:bg-red-700 text-red-100 shrink-0 transition opacity-0 group-hover:opacity-100 active:scale-95">
+        Copy
+      </button>
+    </div>
+  `).join('');
+}
+
+// Delegate copy buttons
+document.addEventListener('click', e => {
+  const b = e.target.closest('.copy-item');
+  if (b) copyText(b.dataset.copy);
+});
+
+// -------- Copy all --------
+$('copyAllLive').addEventListener('click', () => {
+  if (!liveData.length) return toast('Nothing to copy', 'red');
+  copyText(liveData.map(x => x.phone).join('\n'));
+});
+$('copyAllInvalid').addEventListener('click', () => {
+  if (!invalidData.length) return toast('Nothing to copy', 'red');
+  copyText(invalidData.map(x => x.phone).join('\n'));
+});
+
+// -------- CSV export --------
+$('downloadCsv').addEventListener('clic
